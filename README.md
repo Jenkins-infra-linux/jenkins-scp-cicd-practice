@@ -215,7 +215,7 @@ SSH 키 기반 인증이 정상적으로 동작하여 자동화 배포 과정에
 ### 해결 방법
 vi 편집기를 이용해서 xml파일 내용에 useSecurity부분을 false로 변경
 
-![alt text](troubleshooting1.png)
+![troubleshooting1](https://github.com/user-attachments/assets/6d646132-c9d4-4dbc-a646-e74ea2f31398)
 
 ```
 jihye@myserver01:~$ vi /var/lib/jenkins/config.xml
