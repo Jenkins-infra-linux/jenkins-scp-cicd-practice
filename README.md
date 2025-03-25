@@ -50,6 +50,7 @@ Ngrok을 사용하면 로컬에서 실행 중인 Jenkins 서버에 외부 접근
 
 <br>
 
+
 ### 2. GitHub Webhook, 저장소에서 발생한 이벤트 외부 서버로 자동 전달
 
 <br>
@@ -86,15 +87,15 @@ Jenkins가 즉시 빌드를 트리거하도록 하기 위해 사용됩니다.
 
 Jenkins를 Docker 컨테이너에서 실행할 경우, 컨테이너 내부에서 SSH 키를 설정해야 합니다.
 
-```
+``` 
 docker exec -it <container ID> bash
 ssh-keygen -t rsa -b 4096
 ls -l .ssh
 cat .ssh/authorized_keys
 cat .ssh/id_rsa
 cat .ssh/id_rsa.pub
-ssh-copy-id ubuntu@10.0.2.20
-ssh ubuntu@myserver02  # 비밀번호 없이 접속되는지 확인
+ssh-copy-id ubuntu@<server ip or 설정 hostname>
+ssh ubuntu@<server ip or 설정 hostname>  # 비밀번호 없이 접속되는지 확인
 ```
 
 <br>
@@ -150,7 +151,7 @@ pipeline {
         stage('Transfer to Server B') {
             steps {
                 script {
-                    sh 'scp /var/jenkins_home/appjar/step07_cicd-0.0.1-SNAPSHOT.jar wonho@10.0.2.20:/home/jihye/bind/'
+                    sh 'scp /var/jenkins_home/appjar/step07_cicd-0.0.1-SNAPSHOT.jar wonho@10.0.2.16:/home/jihye/bind/'
                 }
             }
         }
@@ -184,6 +185,8 @@ ssh wonho@10.0.2.16 "bash /home/wonho/bind/restart.sh"
 <br>
 
 ### 5. jar파일 정상작동 확인
+<br>
+
 ![정상작동](https://github.com/user-attachments/assets/7ab1331e-43b0-4d0f-8eaa-deac98b7959a)
 
 <br>
@@ -192,7 +195,8 @@ ssh wonho@10.0.2.16 "bash /home/wonho/bind/restart.sh"
 
 
 
-### 문제 상황1 : SSH 접속 시 비밀번호 요청 문제
+### 문제 상황 1 : SSH 접속 시 비밀번호 요청 문제
+
 <br>
 
 원격 서버 myserver01에서 myserver02로 SSH 접속 시, 정상적으로 설정된 SSH 키가 있음에도 불구하고 비밀번호를 계속해서 요구하는 문제가 발생하였습니다.
@@ -229,7 +233,7 @@ SSH 키 기반 인증이 정상적으로 동작하여 자동화 배포 과정에
 
 
 ---
-### 문제 상황2 : myserver01(Unbuntu)에 직접 설치되어있는 Jenkins 아이디 비밀번호 잊어버렸을때 
+### 문제 상황 2 : myserver01(Unbuntu)에 직접 설치되어있는 Jenkins 아이디 비밀번호 잊어버렸을때 
 <br>
 
 
@@ -251,16 +255,21 @@ jihye@myserver01:~$ vi /var/lib/jenkins/config.xml
 
 ---
 
-### 문제 상황3 : IP주소 재할당으로 인하여 Jenkins 속도가 심각하게 저하됨
+### 문제 상황 3 : IP주소 재할당으로 인하여 Jenkins 속도가 심각하게 저하됨
 <br>
 
 ### 해결 방법 
 변경된 IP 주소를 입력하여 해결
+
+
 ![image](https://github.com/user-attachments/assets/5b90ee90-e906-4cc4-bd39-39502dc2051e)
 
 ---
 
-### 문제 상황4 : Ubuntu 서버에 할당된 디스크 용량 부족
+### 문제 상황 4 : Ubuntu 서버에 할당된 디스크 용량 부족
+
+<br>
+
 ![image](https://github.com/user-attachments/assets/8f6332f9-7210-49e0-a909-fa6e27657118)
 <br>
 
@@ -307,4 +316,8 @@ tmpfs                              387M   16K  387M   1% /run/user/1000
 
 ### 결과
 디스크 부족 관련 에러가 나타나지 않으며 노드가 정상적으로 빌드를 수행합니다.
+
+<br>
+
+
 ![image](https://github.com/user-attachments/assets/1e189101-ebf0-4484-8607-2766dc8a189c)
