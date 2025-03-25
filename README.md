@@ -171,7 +171,7 @@ ssh wonho@10.0.2.16 "bash /home/wonho/bind/restart.sh"
 
 
 
-### 문제 상황 : SSH 접속 시 비밀번호 요청 문제
+### 문제 상황1 : SSH 접속 시 비밀번호 요청 문제
 <br>
 
 원격 서버 myserver01에서 myserver02로 SSH 접속 시, 정상적으로 설정된 SSH 키가 있음에도 불구하고 비밀번호를 계속해서 요구하는 문제가 발생하였습니다.
@@ -205,3 +205,25 @@ chmod 755 ~  # 홈 디렉터리 권한 변경
 SSH 접속 시 더 이상 비밀번호를 묻지 않고 정상적으로 로그인됩니다.
 
 SSH 키 기반 인증이 정상적으로 동작하여 자동화 배포 과정에서 문제 발생 가능성이 줄어들었습니다.
+
+
+---
+### 문제 상황2 : myserver01(Unbuntu)에 직접 설치되어있는 Jenkins 아이디 비밀번호 잊어버렸을때 
+<br>
+
+
+### 해결 방법
+vi 편집기를 이용해서 xml파일 내용에 useSecurity부분을 false로 변경
+
+![alt text](troubleshooting1.png)
+
+```
+jihye@myserver01:~$ vi /var/lib/jenkins/config.xml
+```
+
+<br>
+
+### 결과
+
+아이디와 비밀번호를 입력하지않아도 바로 Jenkins Dashboard 창으로 이동<br>
+이 내부에서 아이디 확인
