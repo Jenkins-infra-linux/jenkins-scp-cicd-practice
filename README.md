@@ -31,7 +31,8 @@ Ngrok을 사용하면 로컬에서 실행 중인 Jenkins 서버에 외부 접근
 - 자동화된 빌드 및 배포를 통해 운영 비용 절감과 안정적인 서비스 제공을 가능하게 합니다.
 
 
-- GitHub Webhook과 Jenkins를 활용해 개발 변경 사항을 실시간으로 반영하여 지속적인 배포 환경을 구축합니다. 
+- GitHub Webhook과 Jenkins를 활용해 개발 변경 사항을 실시간으로 반영하여 지속적인 배포 환경을 구축합니다.
+
 
 
 <br>
@@ -227,3 +228,51 @@ jihye@myserver01:~$ vi /var/lib/jenkins/config.xml
 
 아이디와 비밀번호를 입력하지않아도 바로 Jenkins Dashboard 창으로 이동<br>
 이 내부에서 아이디 확인
+
+### 문제 상황3 : IP주소 재할당으로 인하여 Jenkins 속도가 심각하게 저하됨
+
+### 해결 방법 
+변경된 IP 주소를 입력하여 해결
+![image](https://github.com/user-attachments/assets/5b90ee90-e906-4cc4-bd39-39502dc2051e)
+
+### 문제 상황4 : Ubuntu 서버에 할당된 디스크 용량 부족
+![image](https://github.com/user-attachments/assets/8f6332f9-7210-49e0-a909-fa6e27657118)
+
+### 원인 분석
+Ubuntu VM에 할당된 디스크 용량이 부족하여 Jenkins Built-In Node에서 Disk 관련 용량 부족 문제가 발생합니다.
+
+### 해결 방법
+Ubuntu VM에 디스크 확장을 해주어서 해결합니다.
+
+1. lsblk 를 통하여 현재 Ubuntu VM에 할당된 디스크 용량과 추가적으로 할당이 가능한 디스크 용량을 체크합니다.
+```bash
+ubuntu@server01:~$ lsblk
+NAME                      MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+loop0                       7:0    0 44.4M  1 loop /snap/snapd/23771
+loop1                       7:1    0 73.9M  1 loop /snap/core22/1748
+loop2                       7:2    0 41.3M  1 loop /snap/trivy/276
+sda                         8:0    0   20G  0 disk
+├─sda1                      8:1    0    1M  0 part
+├─sda2                      8:2    0  1.8G  0 part /boot
+└─sda3                      8:3    0 18.2G  0 part     # 총 디스크 용량
+  └─ubuntu--vg-ubuntu--lv 252:0    0   10G  0 lvm  /   # 우분투에 할당 10G - 추가 할당 가능
+```
+2. -l +100%FREE 명령어를 통하여 논리 볼륨(/dev/ubuntu-vg/ubuntu-lv)에 남은 모든 여유 공간을 할당합니다.
+
+```bash
+ubuntu@server01:~$ sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+```
+3. 정상적으로 할당이 되었는지 확인하기 위하여 df -h 명령어를 통하여 확인합니다.
+```bash
+ubuntu@server01:~$ df -h
+Filesystem                         Size  Used Avail Use% Mounted on
+tmpfs                              387M  1.7M  386M   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv   18G  8.3G  8.8G  49% /
+tmpfs                              1.9G     0  1.9G   0% /dev/shm
+tmpfs                              5.0M     0  5.0M   0% /run/lock
+/dev/sda2                          1.8G   96M  1.6G   6% /boot
+tmpfs                              387M   16K  387M   1% /run/user/1000
+```
+### 결과
+디스크 부족 관련 에러가 나타나지 않으며 노드가 정상적으로 빌드를 수행합니다.
+![image](https://github.com/user-attachments/assets/1e189101-ebf0-4484-8607-2766dc8a189c)
