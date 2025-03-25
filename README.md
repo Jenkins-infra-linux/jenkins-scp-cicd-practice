@@ -3,11 +3,11 @@
 <br>
 
 ## 🤝 Team Members
-| <img src="https://github.com/parkjhhh.png" width="200px"> |  <img src="https://github.com/unoYoon.png" width="200px"> |
-| :---: | :---: |
-| [박지혜](https://github.com/parkjhhh) | [윤원호](https://github.com/unoYoon) |
+| <img src="https://github.com/kcklkb.png" width="200px"> | <img src="https://github.com/woody6624.png" width="200px"> | <img src="https://github.com/parkjhhh.png" width="200px"> | <img src="https://github.com/unoYoon.png" width="200px"> |
+| :---: | :---: | :---: | :---: |
+| [김창규](https://github.com/kcklkb) | [김우현](https://github.com/woody6624) | [박지혜](https://github.com/parkjhhh) | [윤원호](https://github.com/unoYoon) |
 
-
+<br>
 
 ## 🚀프로젝트 개요
 
