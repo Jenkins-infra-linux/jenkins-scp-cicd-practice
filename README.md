@@ -41,28 +41,26 @@ Ngrok을 사용하면 로컬에서 실행 중인 Jenkins 서버에 외부 접근
 
 <br>
 
-
-### ngrok을 통해 외부에서 접근 가능한 환경을 구성
+### ⚙️사전 환경 설정
+### 1. ngrok을 통해 외부에서 접근 가능한 환경을 구성
 
 <br>
-
 
 ![image](https://github.com/user-attachments/assets/9034f785-f0d0-4cbe-aea1-5257672f5eb8)
 
 <br>
 
-### GitHub Webhook, 저장소에서 발생한 이벤트 외부 서버로 자동 전달
+### 2. GitHub Webhook, 저장소에서 발생한 이벤트 외부 서버로 자동 전달
 
 <br>
 
 ![image](https://github.com/user-attachments/assets/7bdacf38-bc87-4727-a544-58a96351d1d6)
 
-
-
-### Github hook trigger for GITScm polling 설정
-
 <br>
 
+### 3. Github hook trigger for GITScm polling 설정
+
+<br>
 
 ![image](https://github.com/user-attachments/assets/cff6ab08-18a2-424d-8849-814d1fe548a2)
 
@@ -72,7 +70,19 @@ Jenkins가 즉시 빌드를 트리거하도록 하기 위해 사용됩니다.
 
 <br>
 
-### 1. Jenkins 환경 설정
+### 4. Jdk, Gradle, Maven 설정
+![jdk](https://github.com/user-attachments/assets/3f4fd258-9ad6-4f0b-a255-375fc9677995)
+![gradle](https://github.com/user-attachments/assets/e35480d3-e031-4b49-af7a-ea6ed3ce264a)
+![maven](https://github.com/user-attachments/assets/83544fdd-482d-4e4d-b502-01af04aca0da)
+
+<br>
+
+### 5. Github 토큰 추가
+![git토큰](https://github.com/user-attachments/assets/85d2306d-ca16-46c7-8d64-9bc88cb7c3f5)
+
+<br>
+
+### 6. Jenkins 환경 설정
 
 Jenkins를 Docker 컨테이너에서 실행할 경우, 컨테이너 내부에서 SSH 키를 설정해야 합니다.
 
@@ -87,7 +97,13 @@ ssh-copy-id ubuntu@10.0.2.20
 ssh ubuntu@myserver02  # 비밀번호 없이 접속되는지 확인
 ```
 
-### 2. 파일 전송 테스트
+<br>
+
+### 📤파일 전송
+
+<br>
+
+### 1. 파일 전송 테스트
 
 서버 간 파일 전송이 정상적으로 이루어지는지 확인합니다.
 
@@ -95,7 +111,7 @@ ssh ubuntu@myserver02  # 비밀번호 없이 접속되는지 확인
 scp 복사할파일 username@remote_server_ip:/복사받을경로
 ```
 
-### 3. 파일 변경 모니터링
+### 2. 파일 변경 모니터링
 
 server01에서 특정 파일이 수정되었는지 실시간으로 감지합니다.
 
@@ -103,7 +119,7 @@ server01에서 특정 파일이 수정되었는지 실시간으로 감지합니�
 inotifywait -m -e close_write $(pwd)/
 ```
 
-### 4. Jenkins CI/CD Pipeline
+### 3. Jenkins CI/CD Pipeline
 
 Jenkinsfile을 이용하여 자동 빌드 및 배포를 설정합니다.
 
@@ -151,7 +167,7 @@ pipeline {
 ```
 
 
-### 5. 자동 배포 및 재시작
+### 4. 자동 배포 및 재시작
 
 
 서버 B로 파일을 전송 후, 배포 스크립트를 실행하여 애플리케이션을 재시작합니다.
@@ -165,6 +181,11 @@ ssh wonho@10.0.2.16 "bash /home/wonho/bind/restart.sh"
 이 과정을 통해 GitHub 코드 변경 → Jenkins 빌드 → 서버 B 배포 → 애플리케이션 
 
 자동 재시작까지의 CI/CD 파이프라인을 구축 완료하였습니다.
+
+<br>
+
+### 5. jar파일 정상작동 확인
+![정상작동](https://github.com/user-attachments/assets/7ab1331e-43b0-4d0f-8eaa-deac98b7959a)
 
 <br>
 
