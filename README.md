@@ -229,17 +229,26 @@ jihye@myserver01:~$ vi /var/lib/jenkins/config.xml
 아이디와 비밀번호를 입력하지않아도 바로 Jenkins Dashboard 창으로 이동<br>
 이 내부에서 아이디 확인
 
+---
+
 ### 문제 상황3 : IP주소 재할당으로 인하여 Jenkins 속도가 심각하게 저하됨
+<br>
 
 ### 해결 방법 
 변경된 IP 주소를 입력하여 해결
 ![image](https://github.com/user-attachments/assets/5b90ee90-e906-4cc4-bd39-39502dc2051e)
 
+---
+
 ### 문제 상황4 : Ubuntu 서버에 할당된 디스크 용량 부족
 ![image](https://github.com/user-attachments/assets/8f6332f9-7210-49e0-a909-fa6e27657118)
+<br>
+
 
 ### 원인 분석
 Ubuntu VM에 할당된 디스크 용량이 부족하여 Jenkins Built-In Node에서 Disk 관련 용량 부족 문제가 발생합니다.
+<br>
+
 
 ### 해결 방법
 Ubuntu VM에 디스크 확장을 해주어서 해결합니다.
@@ -273,6 +282,9 @@ tmpfs                              5.0M     0  5.0M   0% /run/lock
 /dev/sda2                          1.8G   96M  1.6G   6% /boot
 tmpfs                              387M   16K  387M   1% /run/user/1000
 ```
+<br>
+
+
 ### 결과
 디스크 부족 관련 에러가 나타나지 않으며 노드가 정상적으로 빌드를 수행합니다.
 ![image](https://github.com/user-attachments/assets/1e189101-ebf0-4484-8607-2766dc8a189c)
