@@ -300,7 +300,14 @@ sda                         8:0    0   20G  0 disk
 ```bash
 ubuntu@server01:~$ sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
 ```
-3. 정상적으로 할당이 되었는지 확인하기 위하여 df -h 명령어를 통하여 확인합니다.
+3. 논리 볼륨 확장 단계(위)를 마무리하고 파일 시스템 또한 확장해주어야 합니다.
+   
+```bash
+sudo resize2fs /dev/ubuntu-vg/ubuntu-lv
+```
+
+
+4. 정상적으로 할당이 되었는지 확인하기 위하여 df -h 명령어를 통하여 확인합니다.
 ```bash
 ubuntu@server01:~$ df -h
 Filesystem                         Size  Used Avail Use% Mounted on
@@ -312,6 +319,7 @@ tmpfs                              5.0M     0  5.0M   0% /run/lock
 tmpfs                              387M   16K  387M   1% /run/user/1000
 ```
 <br>
+
 
 
 ### 결과
